@@ -1,0 +1,33 @@
+import os, sys
+import subprocess
+
+csv_path = './python_assignment.csv'
+
+print csv_path
+
+import csv
+cr = csv.reader(open("./python_assignment.csv","rU"), dialect=csv.excel_tab)
+cr.next()
+result = 0
+calc_row = 1
+for row in cr:
+    try:
+        calc_row = calc_row +1
+        if row[2] == "*":
+            result = int(row[0]) * int(row[1])
+        elif row[2] == "+":
+            result = int(row[0]) + int(row[1])
+        elif row[2] == "/":
+            result = int(row[0]) / int(row[1])
+        elif row[2] == "-":
+            result = int(row[0]) - int(row[1])
+        csv_result = int(row[3])
+        assert result == csv_result,AssertionError
+        print row[0] + " " + row[2] + " " + row[1] + " = " + str(result)
+
+    except AssertionError, exception:
+        print "\nAssertionError:"
+        print "The result does not match the math for row " + str(calc_row) + "!"
+        print row[0] + " " + row[2] + " " + row[1] + " = " + str(result) + ", compared to CSV result of: " + str(csv_result)
+
+
